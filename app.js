@@ -22,7 +22,6 @@ SinglyLinkedList.prototype._getNodeAt = function(index){
 
   while(count < index) {
     currentNode = currentNode.next;
-    console.log(currentNode.val);
     count++
   }
 
@@ -48,6 +47,11 @@ SinglyLinkedList.prototype.clear = function() {
 };
 
 SinglyLinkedList.prototype.pop = function() {
+  var count = 0;
+  var length = this.length;
+  var oldTail = this.tail
+  var nextToLast = this._getNodeAt(length - 2)
+
   if(!this.head) {
     return undefined;
   }
@@ -59,19 +63,33 @@ SinglyLinkedList.prototype.pop = function() {
     return returnVal;
   }
 
-  var returnVal = this.tail.val;
-  this.length--;
-  console.log(returnVal);
-
-  return returnVal;
-
+  nextToLast.next = null;
+  this.tail = nextToLast;
+  this.length--
+  return oldTail.val
 };
 
 SinglyLinkedList.prototype.unshift = function(val) {
+  this.head = new Node(val)
+  if(this.length === 0){
+    this.tail = this.head;
+    this.next = this.head;
+  } else {
+    this.head.next = this.tail;
+  }
 
+  this.length++
 };
 
 SinglyLinkedList.prototype.shift = function() {
+  // var head = this.head;
+  if(this.length === 0){
+    return
+  }
+  if(this.length > 0){
+    return this.remove(0)
+  }
+
 };
 
 SinglyLinkedList.prototype.get = function(index) {
@@ -82,10 +100,54 @@ SinglyLinkedList.prototype.get = function(index) {
   }
 };
 
-SinglyLinkedList.prototype.set = function(index, val) {
+SinglyLinkedList.prototype.set = function(index, value) {
+  if(index >= this.length){
+    return undefined
+  } else {
+    this._getNodeAt(index).val = value;
+    return this._getNodeAt(index).val
+
+  }
 };
 
 SinglyLinkedList.prototype.remove = function(index) {
+
+  var currentNode = this.head,
+        length = this.length,
+        count = 0,
+        beforeNodeToDelete = null,
+        nodeToDelete = null,
+        deletedNode = null;
+
+    // 1st use-case: an invalid position
+    if (index < 0 || index > length) {
+        return undefined;
+    }
+
+    // 2nd use-case: the first node is removed
+    if (index === 0) {
+        this.head = currentNode.next;
+        deletedNode = currentNode;
+        currentNode = null;
+        this.length--;
+        return deletedNode.val;
+    }
+
+    // 3rd use-case: any other node is removed
+    while (count < index) {
+        beforeNodeToDelete = currentNode;
+        nodeToDelete = currentNode.next;
+        currentNode = currentNode.next;
+        console.log(currentNode);
+        count++;
+    }
+
+    beforeNodeToDelete.next = nodeToDelete.next;
+    deletedNode = nodeToDelete;
+    nodeToDelete = null;
+    this.length--;
+
+    return deletedNode.val;
 };
 
 SinglyLinkedList.prototype.reverse = function () {
