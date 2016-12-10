@@ -138,7 +138,6 @@ SinglyLinkedList.prototype.remove = function(index) {
         beforeNodeToDelete = currentNode;
         nodeToDelete = currentNode.next;
         currentNode = currentNode.next;
-        console.log(currentNode);
         count++;
     }
 

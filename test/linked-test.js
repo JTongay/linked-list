@@ -176,7 +176,6 @@ describe("Singly Linked List", function() {
       expect(list.head.next).to.not.exist;
 
       list.unshift(4);
-      console.log(list);
       expect(list.head.val).to.equal(4);
       expect(list.head.next.val).to.equal(2);
 
