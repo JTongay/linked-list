@@ -164,7 +164,9 @@ DoublyLinkedList.prototype.insert = function(index, val) {
   previousNode.next = newNode;
   //set the current previous node to the new Node.
   node.prev = newNode;
-  console.log(newNode);
+  console.log(this.head);
+  console.log(this.head.next);
+  console.log(this.tail);
   //increase the length
   this.length++;
   return this;
@@ -172,7 +174,32 @@ DoublyLinkedList.prototype.insert = function(index, val) {
 };
 
 DoublyLinkedList.prototype.remove = function(index) {
+  //Remove from front of list
+  if(index === 0){
+    return this.shift();
+  }
+  //Remove from back of list
+  if(index === this.length - 1){
+    return this.pop();
+  }
+  //Remove from anywhere else
+  var node = this.__getNodeAt(index);
+  if(node){
+    //Get the next and previous nodes.
+    var previousOne = node.prev;
+    var nextOne = node.next;
+    //Set the previous node's next to the nextOne
+    previousOne.next = nextOne;
+    //Set the next node's prev to the previous node
+    nextOne.prev = previousOne;
+    //Decrement length by one
+    this.length--;
+    //Set the current nodes prev and next to null;
+    node.prev = null;
+    node.next = null;
+    return node.val;
 
+  }
 
 };
 
